@@ -1,5 +1,5 @@
 import sqlite3
-from  flask import Flask, g, render_template, request, session, flash, redirect, url_for
+from  flask import Flask, g, render_template, request, session, flash, redirect, url_for, abort
 
 # create and initialize a new Flask app
 
@@ -50,7 +50,8 @@ def index():
     db = get_db()
     cur = db.execute('select * from entries order by id desc')
     entries = cur.fetchall()
-    return render_template('index.html', entries=entries)
+    return "Hello, World!"
+        #render_template('index.html', entries=entries)
 
 if __name__ == "__main__":
     app.run()
@@ -76,4 +77,18 @@ def logout():
     """User Logout/authentication/session management"""
     session.pop('logged_in', None)
     flash('You were logged out')
+    return redirect(url_for('index'))
+
+@app.route('/add', methods=["POST"])
+def add_entry():
+    """Add new post to database."""
+    if not session.get('logged_in'):
+        abort(401)
+    db = get_db()
+    db.execute(
+        'insert into entries (title, text) values (?, ?)',
+        [request.form['title'], request.form['text']]
+    )
+    db.commit()
+    flash('New entry was successfully posted')
     return redirect(url_for('index'))
