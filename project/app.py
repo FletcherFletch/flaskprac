@@ -50,8 +50,7 @@ def index():
     db = get_db()
     cur = db.execute('select * from entries order by id desc')
     entries = cur.fetchall()
-    return "Hello, World!"
-        #render_template('index.html', entries=entries)
+    return render_template('index.html', entries=entries)
 
 if __name__ == "__main__":
     app.run()
