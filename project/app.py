@@ -12,7 +12,7 @@ SECRET_KEY = "change_me"
 # create and initalize a flask app
 app = Flask(__name__)
 
- #load the config after app initialization 
+#load the config after app initialization 
 app.config.from_object(__name__)
 
 #connection to database
@@ -103,3 +103,11 @@ def add_entry():
     db.commit()
     flash('New entry was successfully posted')
     return redirect(url_for('index'))
+
+# @app.route('/search/', methods=['GET'])
+# def search():
+#     query = request.args.get("query")
+#     entries = db.session.query(models.Post)
+#     if query:
+#         return render_template('search.html', entries=entries, query=query)
+#     return render_template('search.html')

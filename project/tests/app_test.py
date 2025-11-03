@@ -30,10 +30,15 @@ def test_index(client):
     response = client.get("/", content_type="html/text")
     assert response.status_code == 200
 
+    # this test makes sure that the homepage exists and returns a 200 OK
+    # can extent to check content in the page itself, redirects,JSON data, etc
+
 def test_database(client):
     """initial test. ensure that the database exists """
     tester = Path("test.db").is_file()
     assert tester
+
+    #want to go beyond does it exists and check that models behave correctly
 
 def test_empty_db(client):
     """Ensure database is bank"""
